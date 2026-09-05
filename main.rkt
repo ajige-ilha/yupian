@@ -81,9 +81,13 @@
 (define (手 target value)
     (set-box! target value))
 
-(: 口 (-> Natural (Listof Natural)))
-(define (口 count)
-    (build-list count (lambda ([index : Index]) index)))
+(define-syntax 口
+    (syntax-rules ()
+        [(_ condition ([name initial] ...) (step ...) final)
+         (let: loop : Any ([name : Any initial] ...)
+             (if condition
+                 (loop step ...)
+                 final))]))
 
 (: 尸 False)
 (define 尸 #f)
@@ -136,7 +140,10 @@
 (define new-value 人)
 (define filter-value 心)
 (define set-value 手)
-(define loop-value 口)
+(define-syntax loop-value
+    (syntax-rules ()
+        [(_ condition ([name initial] ...) (step ...) final)
+         (口 condition ([name initial] ...) (step ...) final)]))
 (define false-value 尸)
 (define cons-value 廿)
 (define-syntax define-value

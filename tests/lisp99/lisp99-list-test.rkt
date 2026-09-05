@@ -72,3 +72,20 @@
         yupian-namespace)
     '())
 
+;;; Problem 4
+;;; FIXME Remove references to #'十木 when own type system works
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「十木 「木 一 二 四 三」 」")))
+        yupian-namespace)
+    4)
+
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「十木 「木 一」 」")))
+        yupian-namespace)
+    1)
+
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「十木 卜」")))
+        yupian-namespace)
+    0)
+
