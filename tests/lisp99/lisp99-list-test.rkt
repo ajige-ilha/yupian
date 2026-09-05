@@ -15,16 +15,16 @@
 
 ;;; Problem 1
 (check-equal?
- (eval (s-tree->datum (car (parse-program "「梶 「木 一 二 四 三」」")))
+ (eval (s-tree->datum (car (parse-program "「朷 「木 一 二 四 三」」")))
      yupian-namespace)
  3)
 
 (check-equal?
- (eval (s-tree->datum (car (parse-program "「梶 「木 一」」")))
+ (eval (s-tree->datum (car (parse-program "「朷 「木 一」」")))
      yupian-namespace)
  1)
 
 (check-equal?
- (eval (s-tree->datum (car (parse-program "「梶 卜」")))
+ (eval (s-tree->datum (car (parse-program "「朷 卜」")))
      yupian-namespace)
  '())
