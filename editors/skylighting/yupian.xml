@@ -7,7 +7,7 @@
         <DetectChar char=";" context="Comment" />
         <StringDetect char="&quot;" context="String" />
         <keyword attribute="Keyword" context="#stay" String="keywords" />
-        <RegExpr attribute="Number" String="[-+]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)" />
+        <RegExpr attribute="Numeric" String="[-+]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)" />
         <AnyChar attribute="Punctuation" String="()「」[]『』" />
       </context>
       <context name="Comment" attribute="Comment" lineEndContext="#pop" />

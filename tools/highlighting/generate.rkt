@@ -54,7 +54,7 @@
 (write-generated
  "editors/vim/syntax/yupian.vim"
  (format
-  "if exists(\"b:current_syntax\")\n  finish\nendif\n\nsyn case match\nsyn keyword yupianKeyword ~a\nsyn match yupianNumber \"~a\"\nsyn region yupianString start='\"' skip='\\\\\"' end='\"'\nsyn match yupianComment \"~a.*$\"\nsyn match yupianDelimiter \"~a\"\nsyn match yupianIdentifier \"\\<[[:alnum:]_?-][[:alnum:]_?!-]*\\>\"\n\nhi def link yupianKeyword Keyword\nhi def link yupianNumber Number\nhi def link yupianString String\nhi def link yupianComment Comment\nhi def link yupianDelimiter Delimiter\nhi def link yupianIdentifier Identifier\n\nlet b:current_syntax = \"~a\"\n"
+  "if exists(\"b:current_syntax\")\n  finish\nendif\n\nsyn case match\nsyn keyword yupianKeyword ~a\nsyn match yupianNumeric \"~a\"\nsyn region yupianString start='\"' skip='\\\\\"' end='\"'\nsyn match yupianComment \"~a.*$\"\nsyn match yupianDelimiter \"~a\"\nsyn match yupianIdentifier \"\\<[[:alnum:]_?-][[:alnum:]_?!-]*\\>\"\n\nhi def link yupianKeyword Keyword\nhi def link yupianNumeric Numeric\nhi def link yupianString String\nhi def link yupianComment Comment\nhi def link yupianDelimiter Delimiter\nhi def link yupianIdentifier Identifier\n\nlet b:current_syntax = \"~a\"\n"
   keyword-text number-pattern comment-line delimiter-regexp language))
 
 (write-generated
@@ -91,7 +91,7 @@
 (write-generated
  "editors/skylighting/yupian.xml"
  (format
-  "<syntax name=\"~a\" version=\"1\" kateversion=\"5.0\" section=\"Sources\">\n  <highlighting>\n    <list name=\"keywords\">~a</list>\n    <contexts>\n      <context name=\"Normal\" attribute=\"Normal Text\" lineEndContext=\"#stay\">\n        <DetectSpaces />\n        <DetectChar char=\"~a\" context=\"Comment\" />\n        <StringDetect char=\"&quot;\" context=\"String\" />\n        <keyword attribute=\"Keyword\" context=\"#stay\" String=\"keywords\" />\n        <RegExpr attribute=\"Number\" String=\"~a\" />\n        <AnyChar attribute=\"Punctuation\" String=\"~a\" />\n      </context>\n      <context name=\"Comment\" attribute=\"Comment\" lineEndContext=\"#pop\" />\n      <context name=\"String\" attribute=\"String\" lineEndContext=\"#pop\">\n        <Detect2Chars char=\"\\\\\" char1=\"&quot;\" attribute=\"Char\" />\n        <DetectChar char=\"&quot;\" context=\"#pop\" />\n      </context>\n    </contexts>\n  </highlighting>\n  <general><keywords casesensitive=\"true\" /></general>\n</syntax>\n"
+  "<syntax name=\"~a\" version=\"1\" kateversion=\"5.0\" section=\"Sources\">\n  <highlighting>\n    <list name=\"keywords\">~a</list>\n    <contexts>\n      <context name=\"Normal\" attribute=\"Normal Text\" lineEndContext=\"#stay\">\n        <DetectSpaces />\n        <DetectChar char=\"~a\" context=\"Comment\" />\n        <StringDetect char=\"&quot;\" context=\"String\" />\n        <keyword attribute=\"Keyword\" context=\"#stay\" String=\"keywords\" />\n        <RegExpr attribute=\"Numeric\" String=\"~a\" />\n        <AnyChar attribute=\"Punctuation\" String=\"~a\" />\n      </context>\n      <context name=\"Comment\" attribute=\"Comment\" lineEndContext=\"#pop\" />\n      <context name=\"String\" attribute=\"String\" lineEndContext=\"#pop\">\n        <Detect2Chars char=\"\\\\\" char1=\"&quot;\" attribute=\"Char\" />\n        <DetectChar char=\"&quot;\" context=\"#pop\" />\n      </context>\n    </contexts>\n  </highlighting>\n  <general><keywords casesensitive=\"true\" /></general>\n</syntax>\n"
   language
   (string-join (map (lambda (keyword) (format "<item>~a</item>" (xml-escape keyword))) keywords) "")
   (xml-escape comment-line)
@@ -101,7 +101,7 @@
 (write-generated
  "editors/pygments/yupian.py"
  (format
-  "from pygments.lexer import RegexLexer\nfrom pygments.token import Comment, Keyword, Name, Number, Punctuation, String, Text\n\n\nclass YupianLexer(RegexLexer):\n    name = \"Yupian\"\n    aliases = [\"~a\"]\n    filenames = [\"*.yupian\"]\n    tokens = {\n        \"root\": [\n            (r\"~a.*$\", Comment.Single),\n            (r'\"(\\\\.|[^\"\\\\])*\"', String),\n            (r\"~a\", Number),\n            (r\"~a\", Punctuation),\n            (r\"~a\", Keyword),\n            (r\"[\\w?!-]+\", Name),\n            (r\"\\s+\", Text),\n            (r\".\", Text),\n        ]\n    }\n"
+  "from pygments.lexer import RegexLexer\nfrom pygments.token import Comment, Keyword, Name, Numeric, Punctuation, String, Text\n\n\nclass YupianLexer(RegexLexer):\n    name = \"Yupian\"\n    aliases = [\"~a\"]\n    filenames = [\"*.yupian\"]\n    tokens = {\n        \"root\": [\n            (r\"~a.*$\", Comment.Single),\n            (r'\"(\\\\.|[^\"\\\\])*\"', String),\n            (r\"~a\", Numeric),\n            (r\"~a\", Punctuation),\n            (r\"~a\", Keyword),\n            (r\"[\\w?!-]+\", Name),\n            (r\"\\s+\", Text),\n            (r\".\", Text),\n        ]\n    }\n"
   language comment-line number-pattern delimiter-regexp keyword-regexp))
 
 (displayln "generated Yupian editor definitions")

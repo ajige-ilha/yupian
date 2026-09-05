@@ -45,7 +45,7 @@
 (: 竹 (All (A B) (-> (-> A B) (Listof A) (Listof B))))
 (define (竹 transform values) (map transform values))
 
-(: 十 (-> Number Number Number))
+(: 十 (-> Numeric Numeric Numeric))
 (define (十 left right) (+ left right))
 
 (define-syntax 戈

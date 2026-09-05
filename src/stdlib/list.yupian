@@ -2,8 +2,10 @@
 
 (require racket/list "../../main.rkt" "./math.yupian")
 
-(provide 本 末 朷)
+; Stable keywords, noteworthy in 玉篇字解
+(provide 本 末 朷 柆)
 
+; Current version functions, should refactor later
 (provide 十木)
 
 ;; 本为列表之余部，cdr 也。夫合抱之木生于芥子 卜，开枝散叶。
@@ -18,7 +20,7 @@
 ;; 欲以十字求简矣，然当前 compiler 弗解 overload
 ;; Of course it will be obsolated when I know how to overload
 ; FIXME Yupian's own type system
-(: 十木 (-> (Listof Value) Number))
+(: 十木 (-> (Listof Value) Numeric))
 「山 「十木 列」
   「戈
     「卜耶 列」
@@ -29,3 +31,15 @@
 (: 朷 (-> (Listof Value) Value))
 「 山 「朷 列」
   「中 『「卜耶 列」 卜』 『「卜耶 「本 列」」 「末 列」』 『土 「朷 「本 列」」』」」
+
+;; 寻特定下标之元素也，从木从位省。
+; Of course the sub should be natural numbers. 
+; If not, you just cannot get the element, except when you are Harry Porter.
+; If so, please use 9.75 for the parameter.
+(: 柆 (-> (Listof Value) Numeric Value ))
+「 山 「柆 列 子」 
+  「中 
+    『「卜耶 列」 卜』
+    『「零耶 子」 「末 列」』 
+    『「十小耶 子 零」 卜』
+    『土 「柆 「本 列」 「十退 子」」 』 」 」

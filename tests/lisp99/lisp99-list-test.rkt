@@ -56,3 +56,19 @@
         yupian-namespace)
     '())
 
+;;; Problem 3
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「柆 「木 一 二 四 三」 零」")))
+        yupian-namespace)
+    1)
+
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「柆 「木 一 二 四 三」 二」")))
+        yupian-namespace)
+    4)
+
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「柆 「木 一 二 四 三」 五」")))
+        yupian-namespace)
+    '())
+
