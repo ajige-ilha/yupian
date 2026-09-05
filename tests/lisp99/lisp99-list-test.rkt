@@ -28,3 +28,14 @@
  (eval (s-tree->datum (car (parse-program "「朷 卜」")))
      yupian-namespace)
  '())
+
+
+;;; Problem 2
+(eval (s-tree->datum (car (parse-program "
+    「山 「答二 列」
+        「中
+            『「卜耶 列」 卜』
+            『「卜耶 「本 列」」 卜』
+            『「卜耶 「本 「本 列」」」 「末 列」』
+            『土 「答二 「本 列」」』 
+"))) yupian-namespace)
