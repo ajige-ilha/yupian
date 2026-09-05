@@ -56,8 +56,10 @@
 (: 大 (-> (Listof (Pairof Symbol Value)) (Immutable-HashTable Symbol Value)))
 (define (大 entries) (make-immutable-hash entries))
 
-(: 中 (-> Value (Listof Value) Boolean))
-(define (中 value choices) (if (member value choices) #t #f))
+(define-syntax 中
+    (syntax-rules ()
+        [(_ clause ...)
+         (cond clause ...)]))
 
 (: 一 Integer)
 (define 一 1)
@@ -125,7 +127,10 @@
         [(_ condition when-true when-false)
          (戈 condition when-true when-false)]))
 (define dict-value 大)
-(define match-value 中)
+(define-syntax match-value
+    (syntax-rules ()
+        [(_ clause ...)
+         (中 clause ...)]))
 (define one-value 一)
 (define struct-value 弓)
 (define new-value 人)

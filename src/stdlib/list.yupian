@@ -2,7 +2,7 @@
 
 (require racket/list "../../main.rkt" "./math.yupian")
 
-(provide 本 末)
+(provide 本 末 梶)
 
 (provide 十木)
 
@@ -24,3 +24,8 @@
     「卜耶 列」
     零
     「十 一 「十木 「本 列」」」」」
+
+;; 列表之尾也，从木从尾。
+(: 梶 (-> (Listof Value) Value))
+「 山 「梶 列」
+  「中 『「卜耶 列」 卜』 『「卜耶 「本 列」」 「末 列」』 『土 「梶 「本 列」」』」」

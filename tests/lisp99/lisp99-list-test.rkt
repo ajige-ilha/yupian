@@ -12,7 +12,19 @@
 (parameterize ([current-namespace yupian-namespace])
     (namespace-require `(file ,(path->string core-path)))
     (namespace-require `(file ,(path->string stdlib-path))))
+
+;;; Problem 1
 (check-equal?
- (eval (s-tree->datum (car (parse-program "「十木 「木 一 二 三 四」」")))
+ (eval (s-tree->datum (car (parse-program "「梶 「木 一 二 四 三」」")))
      yupian-namespace)
- 4)
+ 3)
+
+(check-equal?
+ (eval (s-tree->datum (car (parse-program "「梶 「木 一」」")))
+     yupian-namespace)
+ 1)
+
+(check-equal?
+ (eval (s-tree->datum (car (parse-program "「梶 卜」")))
+     yupian-namespace)
+ '())
