@@ -1,0 +1,21 @@
+<syntax name="yupian" version="1" kateversion="5.0" section="Sources">
+  <highlighting>
+    <list name="keywords"><item>木</item><item>水</item><item>火</item><item>土</item><item>竹</item><item>十</item><item>戈</item><item>大</item><item>中</item><item>一</item><item>弓</item><item>人</item><item>心</item><item>手</item><item>口</item><item>尸</item><item>廿</item><item>山</item><item>田</item><item>難</item><item>卜</item></list>
+    <contexts>
+      <context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+        <DetectSpaces />
+        <DetectChar char=";" context="Comment" />
+        <StringDetect char="&quot;" context="String" />
+        <keyword attribute="Keyword" context="#stay" String="keywords" />
+        <RegExpr attribute="Number" String="[-+]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)" />
+        <AnyChar attribute="Punctuation" String="()「」[]『』" />
+      </context>
+      <context name="Comment" attribute="Comment" lineEndContext="#pop" />
+      <context name="String" attribute="String" lineEndContext="#pop">
+        <Detect2Chars char="\\" char1="&quot;" attribute="Char" />
+        <DetectChar char="&quot;" context="#pop" />
+      </context>
+    </contexts>
+  </highlighting>
+  <general><keywords casesensitive="true" /></general>
+</syntax>

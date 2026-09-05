@@ -1,0 +1,21 @@
+{
+  "name": "yupian-language",
+  "displayName": "Yupian Language",
+  "description": "Syntax highlighting for the Yupian Lisp DSL.",
+  "version": "0.0.1",
+  "publisher": "yupian",
+  "engines": { "vscode": "^1.80.0" },
+  "contributes": {
+    "languages": [{
+      "id": "yupian",
+      "aliases": ["Yupian"],
+      "extensions": [".yupian"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "yupian",
+      "scopeName": "source.yupian",
+      "path": "./syntaxes/yupian.tmLanguage.json"
+    }]
+  }
+}

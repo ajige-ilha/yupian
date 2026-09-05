@@ -1,0 +1,10 @@
+<program> ::= { <form> }
+<form> ::= <list> | <vector> | <atom>
+<list> ::= "「" { <form> } "」" | "(" { <form> } ")"
+<vector> ::= "『" { <form> } "』" | "[" { <form> } "]"
+<atom> ::= <identifier> | <number> | <string>
+<identifier> ::= <initial> { <subsequent> }
+<number> ::= <integer> | <real>
+<string> ::= '"' { <string-character> } '"'
+
+; Whitespace separates forms. A semicolon starts a line comment.

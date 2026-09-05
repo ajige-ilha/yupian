@@ -1,0 +1,26 @@
+#lang reader "../../lang/core-reader.rkt"
+
+(require racket/list "../../main.rkt" "./math.yupian")
+
+(provide 本 末)
+
+(provide 十木)
+
+;; 本为列表之余部，cdr 也。夫合抱之木生于芥子 卜，开枝散叶。
+;; 末为列表之首，car 也。
+(: 本 (-> (Listof Value) (Listof Value)))
+(: 末 (-> (Listof Value) Value))
+; Since currenly the thing is not so selfstand, it is a bad idea to use unpack method.
+; I wish the language compiles 「山 『本 列』 「田 『『其一 其余』 列』 其余」」
+(define 本 cdr) 
+(define 末 car)
+
+;; 欲以十字求简矣，然当前 compiler 弗解 overload
+;; Of course it will be obsolated when I know how to overload
+; FIXME Yupian's own type system
+(: 十木 (-> (Listof Value) Number))
+「山 「十木 列」
+  「戈
+    「卜耶 列」
+    零
+    「十 一 「十木 「本 列」」」」」

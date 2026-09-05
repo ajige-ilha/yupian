@@ -1,0 +1,15 @@
+#lang reader "../../lang/core-reader.rkt"
+
+(require racket/list "../../main.rkt")
+
+(provide 零 二 三 四 五 六 七 八 九)
+
+「 山 零 0 」
+「 山 二 2 」
+「 山 三 3 」
+「 山 四 4 」
+「 山 五 5 」
+「 山 六 6 」
+「 山 七 7 」
+「 山 八 8 」
+「 山 九 9 」
