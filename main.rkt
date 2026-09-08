@@ -3,17 +3,29 @@
 ;;; Core values and operations for the Yupian Lisp DSL.
 
 (provide
-    Value Real Integer Numeric
-    木 水 火 土 竹 十 戈 大 中 一 弓 人 心 手 口 尸 廿 山 田 難 卜 卜耶
+    OrdNum Value Real Integer Numeric
+    木 水 火 土 竹 十 戈 大 中 一 弓 人 心 手 口 尸 廿 難 卜 卜耶
     generic-identity
     overloaded-add
     list-value stream-value reduce-value truthy? map-value math-value
     if-value dict-value match-value one-value struct-value new-value
-    filter-value set-value loop-value false-value cons-value define-value
-    let-value lambda-value none-value)
+    filter-value set-value loop-value false-value cons-value 
+    lambda-value none-value)
 
-(define-type Value Any)
-(define-type Numeric (U Real Integer))
+(define-type Numeric Number) ; (U Real Integer))
+(define-type OrdNum 
+    (U
+        Integer
+        Real))
+(define-type Value 
+    (U 
+        Number
+        String
+        Boolean
+        Null
+        (Listof Value)
+        Procedure
+    ))
 
 (: generic-identity (All (A) (-> A A)))
 (define (generic-identity value) value)
@@ -39,8 +51,8 @@
             initial
             values))
 
-(: 土 (-> Any Boolean))
-(define (土 value) (not (or (eq? value #f) (void? value))))
+(: 土 True)
+(define 土 #t)
 
 (: 竹 (All (A B) (-> (-> A B) (Listof A) (Listof B))))
 (define (竹 transform values) (map transform values))
@@ -82,42 +94,31 @@
     (set-box! target value))
 
 (define-syntax 口
-    (syntax-rules ()
+    (syntax-rules (:)
+        [(_ ugly-type condition ([name : type initial] ...) (step ...) final)
+            (let: loop : ugly-type ([name : type (cast initial type)] ...)
+                (if condition
+                    (loop (cast step type) ...)
+                    final))]
         [(_ condition ([name initial] ...) (step ...) final)
-         (let: loop : Any ([name : Any initial] ...)
-             (if condition
-                 (loop step ...)
-                 final))]))
+            (let loop ([name : Any initial] ...)
+                (if condition
+                    (loop step ...)
+                    final))]))
 
 (: 尸 False)
 (define 尸 #f)
 
-(: 廿 (All (A B) (-> A (Listof B) (Listof (U A B)))))
+(: 廿 (-> Value (Listof Value) (Listof Value)))
 (define (廿 value values) (cons value values))
-
-(define-syntax 山
-    (syntax-rules ()
-        [(_ (function-name argument ...) body)
-         (define (function-name argument ...) body)]
-        [(_ name value)
-         (define name value)]))
-
-(define-syntax 田
-    (syntax-rules ()
-        [(_ function-name (argument ...) body)
-         (define (function-name argument ...) body)]
-        [(_ [name value] body)
-         (let* ([name value]) body)]
-        [(_ ([name value] ...) body)
-         (let* ([name value] ...) body)]))
 
 (: 難 (All (A B) (-> (-> A B) (-> A B))))
 (define (難 procedure) procedure)
 
-(: 卜 Null)
-(define 卜 '())
+(: 卜 (All (A) (-> (Listof A))))
+(define (卜) '())
 
-(: 卜耶 (-> Any Boolean))
+(: 卜耶 (-> Value Boolean))
 (define (卜耶 value) (null? value))
 
 (define list-value 木)
@@ -146,13 +147,5 @@
          (口 condition ([name initial] ...) (step ...) final)]))
 (define false-value 尸)
 (define cons-value 廿)
-(define-syntax define-value
-    (syntax-rules ()
-        [(_ form ...)
-         (山 form ...)]))
-(define-syntax let-value
-    (syntax-rules ()
-        [(_ form ...)
-         (田 form ...)]))
 (define lambda-value 難)
-(define none-value 卜)
+(define none-value (卜))

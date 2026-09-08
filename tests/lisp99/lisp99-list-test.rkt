@@ -3,7 +3,7 @@
 (require 
     rackunit
     racket/runtime-path
-    "../../src/compiler.rkt"
+    "../../src/compiler/mod.rkt"
     "../../src/stdlib.rkt"
     "../../src/lisp99/lisp99_ans.yupian")
 
@@ -30,7 +30,7 @@
     1)
 
 (check-equal?
-    (eval (s-tree->datum (car (parse-program "「朷 卜」")))
+    (eval (s-tree->datum (car (parse-program "「朷 「卜」」")))
         yupian-namespace)
     '())
 
@@ -52,7 +52,7 @@
     '())
 
 (check-equal?
-    (eval (s-tree->datum (car (parse-program "「答二 卜」")))
+    (eval (s-tree->datum (car (parse-program "「答二 「卜」」")))
         yupian-namespace)
     '())
 
@@ -85,7 +85,12 @@
     1)
 
 (check-equal?
-    (eval (s-tree->datum (car (parse-program "「十木 卜」")))
+    (eval (s-tree->datum (car (parse-program "「十木 「卜」」")))
         yupian-namespace)
     0)
 
+;;; Problem 5
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「桝 「木 一 二 四 三」 」")))
+        yupian-namespace)
+    '(3 4 2 1))

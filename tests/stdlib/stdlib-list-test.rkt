@@ -2,7 +2,7 @@
 
 (require rackunit
          racket/runtime-path
-         "../../src/compiler.rkt"
+         "../../src/compiler/mod.rkt"
          "../../src/stdlib.rkt")
 
 (define-runtime-path core-path "../../main.rkt")

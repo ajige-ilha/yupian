@@ -2,7 +2,7 @@
 
 (require racket/port
          racket/runtime-path
-         "../src/compiler.rkt")
+         "../src/compiler/mod.rkt")
 
 (provide read-syntax get-info)
 

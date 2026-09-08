@@ -1,0 +1,8 @@
+#lang reader "../../lang/core-reader.rkt"
+
+(require racket/list "../../main.rkt")
+
+(provide 否)
+
+(: 否 (-> Boolean Boolean))
+「 山 「否 『甲 : Boolean 』」 「戈 甲 尸 土」 」

@@ -2,13 +2,13 @@
 
 (require racket/port
          racket/runtime-path
-         "../src/compiler.rkt")
+         "../src/compiler/mod.rkt")
 
 (provide read-syntax get-info)
 
 (define-runtime-path core-path "../main.rkt")
 (define-runtime-path stdlib-path "../src/stdlib.rkt")
-(define-runtime-path compiler-path "../src/compiler.rkt")
+(define-runtime-path compiler-path "../src/compiler/mod.rkt")
 
 (define (read-syntax path port)
   (define source
