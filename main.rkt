@@ -44,9 +44,9 @@
 (: 水 (-> (Listof Value) (Sequenceof Value)))
 (define (水 values) (in-list values))
 
-(: 火 (-> (-> Value Value Value) Value (Listof Value) Value))
+(: 火 (All (A B) (-> (-> B A A) A (Listof B) A)))
 (define (火 combine initial values)
-    (foldl (lambda ([value : Value] [result : Value])
+    (foldl (lambda ([value : B] [result : A])
             (combine value result))
             initial
             values))

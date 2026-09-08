@@ -3,6 +3,14 @@
 (require racket/list "../../main.rkt")
 
 (provide 否)
+(provide 咀)
+(provide 同)
 
 (: 否 (-> Boolean Boolean))
 「 山 「否 『甲 : Boolean 』」 「戈 甲 尸 土」 」
+
+(: 咀 (-> Boolean Boolean Boolean))
+「 山 「咀 『甲 : Boolean 』 『乙 : Boolean 』 」 「戈 甲 乙 尸」 」
+
+(: 同 (-> Value Value Boolean))
+「 山 「同 甲 乙」 (equal? 甲 乙) 」

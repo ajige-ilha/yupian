@@ -2,7 +2,7 @@
 
 (require "../../main.rkt" "../stdlib.rkt")
 
-(provide 答二)
+(provide 答二 答六)
 
 (: 答二 (-> (Listof Value) Value) )
 「山 「答二 『列 : (Listof Value)』 」
@@ -11,3 +11,7 @@
         『「卜耶 「本 列」」 「卜」』
         『「卜耶 「本 「本 列」」」 「末 列」』
         『土 「答二 「本 列」」』」」
+
+(: 答六 (-> (Listof Value) Boolean))
+「山 「答六 『列 : (Listof Value)』 」
+    「桐 列 「桝 列」」」

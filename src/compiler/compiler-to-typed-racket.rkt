@@ -138,26 +138,20 @@
               'yupian-compiler/山 
               "误山字第一号。山之形须为 `「山 名部 实部」`。今阙矣，抑或杂矣。")])
         ]
-;            (let* [
-;              [(list name-part body-part) others] 
-;              [ (list) () ]]
-;              (cons 'define 
-;                (cons 
-;                  name-part 
-;                  (cons 
-;                    (map s-tree->datum body-part))) ))
-            ;; (cons 'define (map s-tree->datum others))]
-          [(cons (s-atom '田) others ) (cons 'let* (map s-tree->datum others))]
-          [(list (s-atom '口) condition (s-list bindings) (s-list steps) final)
-            (list 'let: 'loop ': 'Any
-            (map loop-binding->datum bindings)
-            (list 'if
-              (s-tree->datum condition)
-              (cons 'loop (map s-tree->datum steps))
-              (s-tree->datum final)))]
-          [(list (s-atom operator) (s-atom name) value)
-            (map s-tree->datum (s-list-items tree))]
-            [items (map s-tree->datum items)])]))
+        ; As the coverage of the type, as the mountain fog covers the trees
+        [(cons (s-atom '岚) (cons var-declar others))
+          (list 'define var-declar (map s-tree->datum others))]
+        [(cons (s-atom '田) others ) (cons 'let* (map s-tree->datum others))]
+        [(list (s-atom '口) condition (s-list bindings) (s-list steps) final)
+          (list 'let: 'loop ': 'Any
+          (map loop-binding->datum bindings)
+          (list 'if
+            (s-tree->datum condition)
+            (cons 'loop (map s-tree->datum steps))
+            (s-tree->datum final)))]
+        [(list (s-atom operator) (s-atom name) value)
+          (map s-tree->datum (s-list-items tree))]
+          [items (map s-tree->datum items)])]))
 
 (module+ main
   (displayln (map s-tree->datum

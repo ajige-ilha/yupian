@@ -1,0 +1,14 @@
+#lang reader "../../lang/core-reader.rkt"
+
+(require racket/list "../../main.rkt" "./logical.yupian")
+
+(provide 筌 竺)
+
+; 全为真也。
+(: 筌 (-> (Listof Boolean) Boolean))
+「山 「筌 『列 : (Listof Boolean)』」 「火 咀 土 列」 」
+
+; 埒二列而后竹也。
+; CAVEAT 因近语核，暂以洋字书之。
+(: 竺 (All (A B C) (-> (-> A B C) (Listof A) (Listof B) (Listof C))))
+(define (竺 函 甲 乙) (map 函 甲 乙))
