@@ -1,0 +1,8 @@
+#lang reader "../../lang/core-reader.rkt"
+
+(require "../../main.rkt")
+
+(provide 原耶)
+
+(: 原耶 (-> Value Boolean))
+「山 「原耶 『甲 : Value』」 (and (not (list? 甲)) (not (null? 甲))) 」

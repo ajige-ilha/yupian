@@ -115,3 +115,29 @@
     (eval (s-tree->datum (car (parse-program "「答六 「卜」 」")))
         yupian-namespace)
     #t)
+
+;;; Problem 7
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「枰 「木 一 「木 二 「木 三 四」 五」」 」")))
+        yupian-namespace)
+    (list 1 2 3 4 5))
+
+;;; Problem 8
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「橉 「木 一 一 一 一 二 三 三 一 一 四 五 五 五 五 」 」")))
+        yupian-namespace)
+    (list 1 2 3 1 4 5))
+
+;;; Problem 9
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「答九 「木 一 一 一 一 二 三 三 一 一 四 五 五 五 五 」 」")))
+        yupian-namespace)
+    (list (list 1 1 1 1) (list 2) (list 3 3) (list 1 1) (list 4) (list 5 5 5 5)))
+
+;;; Problem 10
+#|
+(check-equal?
+    (eval (s-tree->datum (car (parse-program "「楄 「木 '天 '天 '天 '天 '地 '玄 '玄 '天 '天 '黄 '宇 '宇 '宇 '宇 」 」")))
+        yupian-namespace)
+    '((4 天) (1 地) (2 玄) (2 天) (1 黄) (4 宇)))
+|#

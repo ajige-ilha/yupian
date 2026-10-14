@@ -1,20 +1,21 @@
 #lang reader "../../lang/core-reader.rkt"
 
 (require racket/list "../../main.rkt" "./logical.yupian" "./math.yupian" "./map.yupian")
+(require "./truth.yupian" "./cons.yupian" racket/match)
 
 ; Stable keywords, noteworthy in 玉篇字解
-(provide 本 末 朷 柆 桝 桐)
+(provide 本 末 朷 柆 桝 木耶 杙耶 栟 枰 橉) ;楄)
 
 ; Current version functions, should refactor later
-(provide 十木)
+(provide 十木 桝深)
 
 ;; 本为列表之余部，cdr 也。夫合抱之木生于芥子 卜，开枝散叶。
 ;; 末为列表之首，car 也。
 ; Since currenly the thing is not so selfstand, it is a bad idea to use unpack method.
 ; I wish the language compiles 「山 『本 列』 「田 『『其一 其余』 列』 其余」」
-(: 本 (-> (Listof Value) (Listof Value)))
+(: 本 (All (A) (-> (Listof A) (Listof A))))
 (define (本 val) (cdr val))
-(: 末 (-> (Listof Value) Value))
+(: 末 (All (A) (-> (Listof A) A)))
 (define (末 val) (car val))
 
 ;; 欲以十字求简矣，然当前 compiler 弗解 overload
@@ -43,21 +44,119 @@
 
 ;; 逆转一列表。
 ;; Jai guru deva om
-(: 桝 (-> (Listof Value) (Listof Value)))
-「山 「桝 『列 : (Listof Value)』」
+(: 桝 (All (A) (-> (Listof A) (Listof A))))
+「山 「桝 『列 : (Listof A)』 -> (Listof A)」
   「口 
-    (Listof Value) ; Sorry for ugliness but wait for the uniform return-value-type syntax
+    (Listof A) ; Sorry for ugliness but wait for the uniform return-value-type syntax
     ; 何事未解脱？忐忑未卜也
     「否 「卜耶 未济」」
     ; 始于何？
-    『『既济 : (Listof Value) 「卜」』 『未济 : (Listof Value) 列』』
+    『『既济 : (Listof A) 「卜」』 『未济 : (Listof A) 列』』
     ; 续于何？
     『 「廿 「末 未济」 既济」 「本 未济」 』
     ; 出于何？
     既济 」」
 
+(: 桝深 (-> (Listof (Listof Value)) (Listof (Listof Value))))
+「山 「桝深 『列 : (Listof (Listof Value))』 -> (Listof (Listof Value))」
+  「口 
+    (Listof (Listof Value)) 
+    「否 「卜耶 未济」」
+    『『既济 : (Listof (Listof Value)) 「卜」』 『未济 : (Listof (Listof Value)) 列』』
+    『 「廿 「末 未济」 既济」 「本 未济」 』
+    既济 」」
+
 ;; 判列表相等
 ;; CAVEAT 目前唯以共同基数较之。
-(: 桐 (-> (Listof Value) (Listof Value) Boolean))
-「山 「桐 『甲 : (Listof Value) 』 『乙 : (Listof Value) 』 」
-  「筌 「竺 同 甲 乙」」」
+(: 杙耶 (-> (Listof Value) (Listof Value) Boolean))
+「山 「杙耶 『甲 : (Listof Value) 』 『乙 : (Listof Value) 』 」
+  「筌耶 「竺 同耶 甲 乙」」」
+
+;; 合二列表于一
+;; CAVEAT To be honest it is O(2(m + n))
+(: 栟 (-> (Listof Value) (Listof Value) (Listof Value)))
+「山 「栟 『甲 : (Listof Value)』 『乙 : (Listof Value) 』」
+  「口
+    (Listof Value)
+    「否 「咀 「卜耶 甲存」 「卜耶 乙存」」」
+    『『逆合 : (Listof Value) 「卜」』 『甲存 : (Listof Value) 甲』 『乙存 : (Listof Value) 乙』』
+    ; CAVEAT For the time being, as restriction of the macro-form, I need to write the
+    ; expression thrice. 
+    ; CAVEAT The 田 binding does not fit here
+    ; Not empty in 乙 otherwise the loop is exited
+    『
+      「廿 「戈 「卜耶 甲存」 「末 甲存」 「末 乙存」 」  逆合」
+      「戈 「卜耶 甲存」甲存 「本 甲存」」
+      「戈 「卜耶 甲存」「本 乙存」乙存」』
+    「桝 逆合」 」 」
+
+(: 木耶 (-> Value Boolean))
+「 山 「木耶 『甲 : Value』」 (list? 甲) 」
+
+; For internal use
+; Throws x into the bucket, backwards.
+; If x is atom, just throw it.
+; If x is a list, throw it one by one, recursively.
+; Here it is O(n).
+(: 杸 (-> (Listof Value) Value (Listof Value)))
+; For the current being, in the system, we need a Racket-type aware version.
+; That is why I have to implement it in pure Racket.
+(define (杸 [有 : (Listof Value)] [物 : Value])
+  (match 物
+    ['() 有]
+    [(cons 有末 有本) (杸 (杸 有 有末) 有本)]
+    [_ (廿 物 有)]))
+
+;; 熨平列表, O(n)
+(: 枰 (-> (Listof Value) (Listof Value)))
+「山 「枰 『列 : (Listof Value)』」
+  「桝 「杸 「卜」 列」 」 」
+
+;; 去除相邻重复项. O(n)
+(: 橉 (-> (Listof Value) (Listof Value)))
+「山 「橉 『列 : (Listof Value) 』」
+  「戈
+    「卜耶 列」
+    「卜」
+    ; 正式处理
+    「 口
+      (Listof Value)
+      「否 「卜耶 未取」」
+      『
+        『逆合 : (Listof Value) 「木 「末 列」」』 
+        『前项 : Value 「末 列」』 
+        『未取 : (Listof Value) 「本 列」』 』
+      ; 此处未取必不为卜（否则解脱）
+      『
+        「戈 「同耶 「末 未取」 前项」 逆合 「廿 「末 未取」 逆合」」
+        「末 未取」
+        「本 未取」 』
+      「桝 逆合」」 」 」
+
+; 行程编码
+#|
+(: 楄 (-> (Listof Value) (Listof (List Integer Value))))
+「山 「楄 『列 : (Listof Value) 』」
+  「戈
+    「卜耶 列」
+    「卜」
+    ; 正式处理
+    「田 
+      『『计数
+        「 口
+          (Listof Value)
+          「否 「卜耶 未取」」
+          『
+            『逆合 : (Listof 薮) 「卜」』 
+            『暂存 : 薮 「艹 「末 列」 一」 』
+            『前项 : Value 「末 列」』 
+            『未取 : (Listof Value) 「本 列」』 』
+          ; 此处未取必不为卜（否则解脱）
+          『
+            「戈 「同耶 「末 未取」 前项」 逆合 「廿 暂存 逆合」」
+            「戈 「同耶 「末 未取」 前项」 「薮进 暂存」 「艹 「末 未取」 一」」
+            「末 未取」
+            「本 未取」 』
+          「桝 「廿 暂存 逆合」」」 』』
+      「竹 「難 「『某薮 : 薮』」「棳 「苯 某薮」 「茉 某薮」」」 计数」 」 」 」
+|#

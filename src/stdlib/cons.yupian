@@ -1,4 +1,23 @@
 #lang reader "../../lang/core-reader.rkt"
 
-(require racket/list "../../main.rkt")
+(require racket/list "../../main.rkt" "./math.yupian")
 
+(provide 卄 苯 茉 薮 薮进)
+
+;; 二格子
+「范 卄 Pairof」
+
+;; 取前格中物
+(: 茉 (All (A B) (-> (卄 A B) A)))
+(define (茉 x) (car x))
+
+;; 取后格中物
+(: 苯 (All (A B) (-> (卄 A B) B)))
+(define (苯 x) (cdr x))
+
+;; 计数用二格子
+「范 薮 『卄 Value Integer』」
+
+;; 进一
+「山 「薮进 『甲 : 薮』」 
+    「艹 「茉 甲」 「十进 「苯 甲」」」」

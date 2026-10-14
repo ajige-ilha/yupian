@@ -1,16 +1,20 @@
 #lang typed/racket/base
 
+(require (for-syntax syntax/parse))
 ;;; Core values and operations for the Yupian Lisp DSL.
 
 (provide
     OrdNum Value Real Integer Numeric
-    木 水 火 土 竹 十 戈 大 中 一 弓 人 心 手 口 尸 廿 難 卜 卜耶
+    木 水 火 土 竹 十 戈 大 中 一 弓 人 心 手 口 尸 廿 難 卜 卜耶 范
     generic-identity
     overloaded-add
     list-value stream-value reduce-value truthy? map-value math-value
     if-value dict-value match-value one-value struct-value new-value
     filter-value set-value loop-value false-value cons-value 
-    lambda-value none-value)
+    none-value)
+
+;; To be refactored, unstable
+(provide 廿深 卜深 艹 棳)
 
 (define-type Numeric Number) ; (U Real Integer))
 (define-type OrdNum 
@@ -24,6 +28,7 @@
         Boolean
         Null
         (Listof Value)
+        (Pairof Value Value)
         Procedure
     ))
 
@@ -40,6 +45,9 @@
 
 (: 木 (-> Value * (Listof Value)))
 (define (木 . values) values)
+
+(: 棳 (All (A B) (-> A B (List A B))))
+(define (棳 A B) (list A B))
 
 (: 水 (-> (Listof Value) (Sequenceof Value)))
 (define (水 values) (in-list values))
@@ -109,17 +117,37 @@
 (: 尸 False)
 (define 尸 #f)
 
-(: 廿 (-> Value (Listof Value) (Listof Value)))
+(: 廿 (All (A B) (-> A (Listof B) (Listof (U A B)))))
 (define (廿 value values) (cons value values))
 
-(: 難 (All (A B) (-> (-> A B) (-> A B))))
-(define (難 procedure) procedure)
+(: 艹 (All (A B) (-> A B (Pairof A B))))
+(define (艹 a b) (cons a b))
+
+(: 廿深 (-> (Listof Value) (Listof (Listof Value)) (Listof (Listof Value))))
+(define (廿深 value values) (cons value values))
+
+
+(define-syntax 難
+    (syntax-rules (:)
+        [(_ ([name : type] ...) body ...)
+         (lambda: ([name : type] ...) body ...)]
+        [(_ (name ...) body ...)
+         (lambda (name ...) body ...)]))
 
 (: 卜 (All (A) (-> (Listof A))))
 (define (卜) '())
 
-(: 卜耶 (-> Value Boolean))
+(: 卜深 (All (A) (-> (Listof (Listof A)))))
+(define (卜深) '())
+
+(: 卜耶 (All (A) (-> (Listof A) Boolean)))
 (define (卜耶 value) (null? value))
+
+(define-syntax 范
+    (syntax-rules ()
+        [
+            (_ clause ...)
+            (define-type clause ...)]))
 
 (define list-value 木)
 (define stream-value 水)
@@ -147,5 +175,4 @@
          (口 condition ([name initial] ...) (step ...) final)]))
 (define false-value 尸)
 (define cons-value 廿)
-(define lambda-value 難)
 (define none-value (卜))

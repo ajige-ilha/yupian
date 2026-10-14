@@ -16,3 +16,8 @@
  (eval (s-tree->datum (car (parse-program "「十木 「木 一 二 三 四」」")))
      yupian-namespace)
  4)
+
+(check-equal?
+ (eval (s-tree->datum (car (parse-program "「薮进 「艹 土 五」」")))
+     yupian-namespace)
+ (cons #t 6))

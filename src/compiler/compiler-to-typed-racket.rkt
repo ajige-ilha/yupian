@@ -93,11 +93,18 @@
     (list 'define: var-name ': var-type value )))
 
 (: middle-fun-header-declar->racket (-> MiddleFunHeaderDeclar Any))
+;;;; FIXME Annotate the result value.
 (define (middle-fun-header-declar->racket declar)
   (let [
     [func-name (MiddleFunHeaderDeclar-func-name declar)]
     [params (MiddleFunHeaderDeclar-params declar)]]
     (cons func-name (map middle-var-declar-as-arg->racket params))))
+
+; Parse the other parts in 山 statement.
+; Perhaps it is better named `compile-mountain`, but as a poem, keep the metaphor.
+(: move-mountain (-> (Listof S-Tree) Any))
+(define (move-mountain others)
+    (match map s-tree->datum others) ...)
 
 (: s-tree->datum (-> S-Tree Any))
 (define (s-tree->datum tree)
