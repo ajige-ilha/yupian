@@ -104,7 +104,36 @@
 ; Perhaps it is better named `compile-mountain`, but as a poem, keep the metaphor.
 (: move-mountain (-> (Listof S-Tree) Any))
 (define (move-mountain others)
-    (match map s-tree->datum others) ...)
+    (match (map s-tree->datum others)
+      [(list var-name-part body-part) 
+        (cond 
+          ; here we are serious to generate a definition along the entry
+          ; Is it a var? 
+          [(valid-yupian-var-declar? var-name-part)
+            (middle-var-declar-stand-alone->racket 
+              (valid-yupian-var-declar->middle var-name-part)
+              body-part)]
+          ; Is it a function? 
+          [(valid-yupian-fun-header-declar? var-name-part)
+            (list 
+              'define 
+              (middle-fun-header-declar->racket 
+                (valid-yupian-fun-header-declar->middle var-name-part))
+              body-part)]
+          [#t 
+            (error 'yupian-compiler/山 
+              "误山字第二号。暂时名部须入变量形或函数形。
+变量形须择一：
+变量名
+『变量名 : 类型』
+函数形：
+『变量形零号作函数名 变量形一号 如是以降』
+函数名不可缺，暂不可标返回值类型。
+自变量形一号起，可略之。")]
+        )]
+      [_ (error 
+          'yupian-compiler/山 
+          "误山字第一号。山之形须为 `「山 名部 实部」`。今阙矣，抑或杂矣。")]))
 
 (: s-tree->datum (-> S-Tree Any))
 (define (s-tree->datum tree)
@@ -114,37 +143,7 @@
       (match (s-list-items tree)
         [(cons (s-atom '山) others)
           ; Now we are going to parse 山. If a malformed 山, throw error.
-          (match (map s-tree->datum others)
-            [(list var-name-part body-part) 
-              (cond 
-                ; here we are serious to generate a definition along the entry
-                ; Is it a var? 
-                [(valid-yupian-var-declar? var-name-part)
-                  (middle-var-declar-stand-alone->racket 
-                    (valid-yupian-var-declar->middle var-name-part)
-                    body-part)]
-                ; Is it a function? 
-                [(valid-yupian-fun-header-declar? var-name-part)
-                  (list 
-                    'define 
-                    (middle-fun-header-declar->racket 
-                      (valid-yupian-fun-header-declar->middle var-name-part))
-                    body-part)]
-                [#t 
-                  (error 'yupian-compiler/山 
-                    "误山字第二号。暂时名部须入变量形或函数形。
-变量形须择一：
-  变量名
-  『变量名 : 类型』
-函数形：
-  『变量形零号作函数名 变量形一号 如是以降』
-  函数名不可缺，暂不可标返回值类型。
-  自变量形一号起，可略之。")]
-              )]
-            [_ (error 
-              'yupian-compiler/山 
-              "误山字第一号。山之形须为 `「山 名部 实部」`。今阙矣，抑或杂矣。")])
-        ]
+          (move-mountain others) ]
         ; As the coverage of the type, as the mountain fog covers the trees
         [(cons (s-atom '岚) (cons var-declar others))
           (list 'define var-declar (map s-tree->datum others))]
